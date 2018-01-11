@@ -12,6 +12,7 @@ MAINTAINER Jean-Thierry BONHOMME <jtbonhomme@gmail.com>
 #============================================
 RUN apt-get update
 RUN apt-get install -y wget
+RUN apt-get install -y unzip
 RUN apt-get install -y git
 RUN apt-get install -y xvfb
 COPY xvfb.sh xvfb.sh
