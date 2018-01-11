@@ -46,7 +46,7 @@ RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $
   && rm /tmp/chromedriver_linux64.zip \
   && mv /var/local/chromedriver /var/local/chromedriver-$CD_VERSION \
   && chmod 755 /var/local/chromedriver-$CD_VERSION \
-  && sudo ln -fs /var/local/chromedriver-$CD_VERSION /usr/bin/chromedriver
+  && ln -fs /var/local/chromedriver-$CD_VERSION /usr/bin/chromedriver
 
 #============================================
 # Selenium
