@@ -11,12 +11,10 @@ MAINTAINER Jean-Thierry BONHOMME <jtbonhomme@gmail.com>
 # Basic tools and update
 #============================================
 RUN apt-get update
+RUN apt-get install -y wget
 RUN apt-get install -y git
 RUN apt-get install -y xvfb
-COPY xvfb.service /etc/systemd/system
-RUN systemctl daemon-reload
-RUN systemctl enable xvfb.service
-RUN systemctl start xvfb.service
+COPY xvfb.sh xvfb.sh
 
 #============================================
 # Google Chrome
@@ -25,13 +23,11 @@ RUN systemctl start xvfb.service
 # Latest released version will be used by default
 #============================================
 #ARG CHROME_VERSION="stable"
-ARG CHROME_VERSION="62.0.3202.94"
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update -qqy \
-  && apt-get -qqy install google-chrome=${CHROME_VERSION:stable} \
-  && rm /etc/apt/sources.list.d/google-chrome.list \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+ARG CHROME_VERSION="63.0.3239.132-1"
+RUN apt-get install -y fonts-liberation gconf-service libappindicator1 libasound2 libatk1.0-0 libcairo2 libcups2 libdbus-1-3 libfontconfig1 libnspr4 libnss3 libxss1 lsb-release xdg-utils
+RUN wget --no-verbose -O /tmp/google-chrome-stable_${CHROME_VERSION}_amd64.deb  https://s3-eu-west-1.amazonaws.com/r7chrome.deb/google-chrome-stable_${CHROME_VERSION}_amd64.deb
+RUN dpkg -i /tmp/google-chrome-stable_${CHROME_VERSION}_amd64.deb
+RUN rm /tmp/google-chrome-stable_${CHROME_VERSION}_amd64.deb
 
 #============================================
 # Chrome webdriver
@@ -62,3 +58,8 @@ RUN  wget --no-verbose https://selenium-release.storage.googleapis.com/$SELENIUM
     -O /var/local/selenium-server-standalone-$SELENIUM_MINOR_VERSION.jar \
   && chmod 755 /var/local/selenium-server-standalone-$SELENIUM_MINOR_VERSION.jar
 
+
+#============================================
+# Start X11 virtual FB
+#============================================
+CMD xvfb.sh
