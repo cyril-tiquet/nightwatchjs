@@ -15,7 +15,7 @@ RUN apt-get install -y wget
 RUN apt-get install -y unzip
 RUN apt-get install -y git
 RUN apt-get install -y xvfb
-COPY xvfb.sh xvfb.sh
+COPY xvfb.sh /var/local/xvfb.sh
 
 #============================================
 # Google Chrome
@@ -59,8 +59,8 @@ RUN  wget --no-verbose https://selenium-release.storage.googleapis.com/$SELENIUM
     -O /var/local/selenium-server-standalone-$SELENIUM_MINOR_VERSION.jar \
   && chmod 755 /var/local/selenium-server-standalone-$SELENIUM_MINOR_VERSION.jar
 
-
+RUN ls /var/local
 #============================================
 # Start X11 virtual FB
 #============================================
-CMD xvfb.sh
+CMD /var/local/xvfb.sh
