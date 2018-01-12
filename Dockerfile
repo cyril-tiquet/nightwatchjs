@@ -18,6 +18,11 @@ RUN apt-get install -y xvfb
 COPY xvfb.sh /var/local/xvfb.sh
 
 #============================================
+# Java runtime
+#============================================
+RUN apt-get install -y openjdk-8-jdk/xenial-updates openjdk-8-jre/xenial-updates
+
+#============================================
 # Google Chrome
 #============================================
 # can specify versions by CHROME_VERSION
@@ -59,8 +64,9 @@ RUN  wget --no-verbose https://selenium-release.storage.googleapis.com/$SELENIUM
     -O /var/local/selenium-server-standalone-$SELENIUM_MINOR_VERSION.jar \
   && chmod 755 /var/local/selenium-server-standalone-$SELENIUM_MINOR_VERSION.jar
 
-RUN ls /var/local
+EXPOSE 4444
+
 #============================================
 # Start X11 virtual FB
 #============================================
-CMD /var/local/xvfb.sh
+ENTRYPOINT ["/var/local/xvfb.sh"]
