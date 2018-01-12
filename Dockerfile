@@ -67,6 +67,7 @@ RUN  wget --no-verbose https://selenium-release.storage.googleapis.com/$SELENIUM
 EXPOSE 4444
 
 #============================================
-# Start X11 virtual FB
+# Start X virtual FB
 #============================================
+#CMD ["/var/local/xvfb.sh"]
 ENTRYPOINT ["/var/local/xvfb.sh"]
